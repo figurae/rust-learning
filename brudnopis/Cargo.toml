@@ -1,0 +1,12 @@
+[package]
+name = "brudnopis"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+solana-program = "1.9.24"
+anchor-attribute-account = "0.24.2"
+anchor-lang = "0.24.2"
+borsh = "0.9.3"
