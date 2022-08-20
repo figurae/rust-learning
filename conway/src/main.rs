@@ -32,6 +32,15 @@ async fn main() {
 fn calculate_neighbors(cells: &[CellState], neighborhood: Neighborhood) -> u32 {
     let mut neighbors_count: u32 = 0;
 
+    match neighborhood {
+        Neighborhood::Moore => {
+            todo!();
+        },
+        Neighborhood::VonNeumann => {
+            todo!();
+        }
+    }
+
     neighbors_count
 }
 
