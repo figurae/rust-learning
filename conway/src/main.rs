@@ -7,18 +7,20 @@ async fn main() {
     let w = screen_width() as usize;
     let h = screen_height() as usize;
 
-    let mut cells = Board::new(Array2::from_elem((w, h), CellState::Dead));
+    let mut cell_array = Array2::from_elem((w, h), CellState::Dead);
+
+    // let mut cells = Board::new(cell_array);
     let mut buffer = Board::new(Array2::from_elem((w, h), CellState::Dead));
 
     let mut image = Image::gen_image_color(w as u16, h as u16, WHITE);
 
-    for i in 0..w * h as usize {
+    for mut window in cell_array.windows((3, 3)) {
         if rand::gen_range(0, 5) == 0 {
-            cells.board.get(i) = CellState::Alive;
+            window[(1,1)] = CellState::Alive;
         }
     }
 
-    dbg!(&cells);
+    dbg!(&cell_array);
 
     let texture = Texture2D::from_image(&image);
 
@@ -53,7 +55,7 @@ struct Board {
 }
 
 impl Board {
-    fn new(board: Array2<CellState>) -> Self {
+    fn new(mut board: Array2<CellState>) -> Self {
         Board {
             width: board.ncols(),
             height: board.nrows(),
@@ -67,7 +69,7 @@ enum Neighborhood {
     VonNeumann,
 }
 
-#[derive(Clone, Debug)]
+#[derive(Clone, Copy, Debug, PartialEq)]
 enum CellState {
     Alive,
     Dead,
