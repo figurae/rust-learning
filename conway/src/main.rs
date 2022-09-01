@@ -28,7 +28,6 @@ async fn main() {
         let w = image.width();
         let h = image.height();
 
-        let start = Instant::now();
         for x in 0..w {
             for y in 0..h {
                 let current_cell = world.board.get((x, y)).unwrap();
@@ -46,22 +45,18 @@ async fn main() {
                 }
             }                
         }
-        println!("applying rules: {} ms", start.elapsed().as_millis());
 
         let start = Instant::now();
-        for i in 0..buffer.board.len() {
-            // TODO: check if nested fors are faster
-            let x = i % w;
-            let y = i / w;
+        for x in 0..w {
+            for y in 0..h {
+                *world.board.get_mut((x, y)).unwrap() = *buffer.board.get((x, y)).unwrap();
 
-            world.board[(x, y)] = buffer.board[(x, y)];
-
-            image.set_pixel(x as u32, y as u32, match buffer.board[(x, y)] {
-                CellState::Alive => RED,
-                CellState::Dead => WHITE,
-            })
+                image.set_pixel(x as u32, y as u32, match buffer.board.get((x, y)).unwrap() {
+                    CellState::Alive => BLACK,
+                    CellState::Dead => WHITE,
+                })
+            }
         }
-        println!("copying from buffer and setting pixels: {} ms", start.elapsed().as_millis());
 
         texture.update(&image);
 
